@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import './index.css';
 
 import App from './App';
 
-/* const myReducer = (state = 'My initial state') => {
-    if (myAction.type === 'ChangeState') {
-        return myAction.payload;
+/* const reducer = (state = 'Initial state') => {
+    if (action.type === 'ChangeState') {
+        return action.payload;
     }
 
     else {
@@ -22,7 +22,8 @@ const initialState = {
     name: 'Xurxe',
 };
 
-const myReducer = (state = initialState, {type, payload}) => {
+// reducers are functions that take two parameters: the initial state, and an action. The action is an object that has type and may have payload.
+const reducer1 = (state = initialState, {type, payload}) => {
     switch (type) {
         case 'ADD_ONE': {
             return {...state, count: state.count + 1};
@@ -57,18 +58,51 @@ const actionChangeName = {
     },
 };
 
-const myStore = createStore(myReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
-/* console.log(myStore);
-console.log(myStore.getState()); */
+const initialTodos = ['Todo 1', 'Todo 2', 'Todo 3']
 
-myStore.dispatch(actionAdd);
-/* console.log(myStore.getState()); */
+const reducer2 = (state = initialTodos, {type, payload}) => {
+    switch (type) {
+        case 'ADD_TODO': {
+            return [...state, payload.todo]
+        }
 
-myStore.dispatch(actionSubtract);
-/* console.log(myStore.getState()); */
+        case 'DELETE_TODO': {
+            const todos = [...state]
+            todos.splice(payload.index, 1)
 
-myStore.dispatch(actionChangeName);
-/* console.log(myStore.getState()); */
+            return todos;
+        }
+
+        case 'EDIT_TODO': {
+            return
+        }
+
+        default: {
+            return state;
+        }
+    }
+}
+
+const allReducers = combineReducers({
+    one: reducer1,
+    two: reducer2,
+})
+
+// needs at least one parameter (reducer)
+const store = createStore(
+    allReducers, 
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+// console.log(store);
+// console.log(store.getState());
+
+store.dispatch(actionAdd);
+// console.log(store.getState());
+
+store.dispatch(actionSubtract);
+// console.log(store.getState());
+
+store.dispatch(actionChangeName);
+// console.log(store.getState());
 
 export const addOne = () => {
     return {
@@ -91,17 +125,36 @@ export const changeName = (name) => {
     }
 };
 
-myStore.dispatch(addOne());
-/* console.log(myStore.getState()); */
+export const addTodo = (newTodo) => {
+    return {
+        type: 'ADD_TODO',
+        payload: {
+            todo: newTodo,
+        }
+    }
+}
 
-myStore.dispatch(subtractOne());
-/* console.log(myStore.getState()); */
+export const deleteTodo = (index) => {
+    return {
+        type: 'DELETE_TODO',
+        payload: {
+            index: index,
+        }
+    }
+}
 
-myStore.dispatch(changeName('Xurxe'));
-/* console.log(myStore.getState()); */
+store.dispatch(addOne());
+// console.log(store.getState());
+
+store.dispatch(subtractOne());
+// console.log(store.getState());
+
+store.dispatch(changeName('Xurxe'));
+// console.log(store.getState());
 
 ReactDOM.render(
-    <Provider store = {myStore}>
+    // Provider has one mandatory prop: store
+    <Provider store = {store}>
         <App title='I am the title'/>
     </Provider>
     , document.getElementById('root')
