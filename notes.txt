@@ -1,0 +1,15 @@
+THU 23.MAY.2019
+
+
+redux: a JS library for centralized state management
+react-redux: a version of redux customized for react
+redux-thunk: a version of redux customized for asynchronous data fetching
+
+
+Store:
+- setState
+- dispatch
+- subscribe
+
+terminal:
+yarn add redux react-redux
