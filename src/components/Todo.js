@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux';
 
-import { deleteTodo } from '../index'
+import { deleteTodo } from '../store/actions/actions2';
 
 const Todo = ({todo, index, deleteTodo}) => {
 

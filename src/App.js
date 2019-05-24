@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 
 import './App.css';
 
-import { addOne, subtractOne, changeName } from './index.js'
+import { addOne, subtractOne, changeName } from './store/actions/actions1'
 import AddTodo from './components/AddTodo';
 import TodoList from './components/TodoList';
 
 class App extends React.Component {
 
     render() {
-        console.log(this.props);
         return (
             <div className="App">
                 <h1>Let's learn Redux</h1>

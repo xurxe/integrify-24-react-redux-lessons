@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { addTodo } from '../index';
+import { addTodo } from '../store/actions/actions2';
 
 class AddTodo extends Component {
     state = {
@@ -13,7 +13,6 @@ class AddTodo extends Component {
         this.setState({
             [name]: value,
         })
-        console.log(this.state.task);
     }
 
     handleSubmit = (e) => {
